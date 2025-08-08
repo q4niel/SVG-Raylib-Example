@@ -1,0 +1,6 @@
+FROM archlinux:latest
+RUN pacman -Syu --noconfirm clang cargo
+COPY . ./proj
+WORKDIR proj
+RUN chmod +x bld/internal_build.sh
+ENTRYPOINT ["./bld/internal_build.sh"]

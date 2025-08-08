@@ -8,6 +8,8 @@
 !bld/
 !bld/run
 !bld/run/**/*
+!bld/Dockerfile.linux
+!internal_build.sh
 
 !src/
 !src/**/*
