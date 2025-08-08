@@ -1,6 +1,7 @@
 FROM archlinux:latest
-RUN pacman -Syu --noconfirm clang cargo
+RUN pacman -Syu --noconfirm clang rustup
+RUN rustup default stable
 COPY . ./proj
 WORKDIR proj
-RUN chmod +x bld/internal_build.sh
-ENTRYPOINT ["./bld/internal_build.sh"]
+RUN chmod +x bld/internal_build.sh bld/internal_build_libraries.sh
+ENTRYPOINT ["sh"]

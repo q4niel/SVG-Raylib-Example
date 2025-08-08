@@ -6,6 +6,7 @@
 !3rd/**/*
 
 !bld/internal_build.sh
+!bld/internal_build_libraries.sh
 
 !src/
 !src/**/*
