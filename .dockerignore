@@ -1,0 +1,11 @@
+*
+
+!bld/build.sh
+
+!3rd/
+!3rd/**/*
+
+!bld/internal_build.sh
+
+!src/
+!src/**/*
