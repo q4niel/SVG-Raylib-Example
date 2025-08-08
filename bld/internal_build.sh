@@ -2,13 +2,14 @@
 shopt -s extglob
 
 mkdir builder
-
 clang++ -std=c++23 -c src/main.cxx -o main.o
 
-raylib=$"3rd/raylib/lib/libraylib.so.550"
-cp $raylib ./builder/
+cp "3rd/raylib/lib/libraylib.so.550" ./builder/
+cp "3rd/resvg/target/release/libresvg.so" ./builder/
 
-clang++ $raylib main.o -o ./builder/app
+cd ./builder
+clang++ libraylib.so.550 libresvg.so ../main.o -o ./app -Wl,-rpath,'$ORIGIN'
+cd ..
 
 rm -r !(builder)
 mv builder/* .
