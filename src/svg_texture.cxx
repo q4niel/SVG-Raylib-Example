@@ -10,10 +10,35 @@ SVGTexture::SVGTexture (
     const int width,
     const int height
 ) :
-    _svgPath(svgPath),
-    _width(width),
-    _height(height)
+    _raylibTexture({})
 {
+    createRaylibTexture (
+        svgPath,
+        width,
+        height
+    );
+}
+
+auto SVGTexture::getRaylibTexture() -> RAYLIB_TEXTURE_CALLBACK {
+    return (0 == _raylibTexture.id)
+        ? std::unexpected(std::format("Raylib texture of '{}' is invalid.", _svgPath))
+        : RAYLIB_TEXTURE_CALLBACK{_raylibTexture}
+    ;
+}
+
+auto SVGTexture::createRaylibTexture (
+    const std::string_view svgPath,
+    const int width,
+    const int height
+) -> RAYLIB_TEXTURE_CALLBACK {
+    if (0 != _raylibTexture.id) {
+        return std::unexpected(std::format("Raylib texture of '{}' is already initialized.", _svgPath));
+    }
+
+    _svgPath = svgPath;
+    _width = width;
+    _height = height;
+
     // Initialize rendering options (DPI, fonts, etc.)
     const resvg_options *options = resvg_options_create();
     if (!options) {
@@ -63,13 +88,13 @@ SVGTexture::SVGTexture (
 
     // Free the CPU-side pixel data (Raylib now owns the texture on GPU)
     UnloadImage(img);
+
+    return RAYLIB_TEXTURE_CALLBACK{_raylibTexture};
 }
 
-auto SVGTexture::getRaylibTexture() -> RAYLIB_TEXTURE_CALLBACK {
-    return (0 == _raylibTexture.id)
-        ? std::unexpected(std::format("Raylib texture of '{}' is invalid.", _svgPath))
-        : RAYLIB_TEXTURE_CALLBACK{_raylibTexture}
-    ;
+auto SVGTexture::destroyRaylibTexture() -> void {
+    UnloadTexture(_raylibTexture);
+    _raylibTexture.id = 0;
 }
 
 auto SVGTexture::getWidth() -> const int {
