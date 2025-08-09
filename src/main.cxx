@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <print>
 #include "../3rd/raylib/include/raylib.h"
 #include "svg_texture.hxx"
 
@@ -13,7 +14,12 @@ auto main(int argc, char **argv) -> int {
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(MAGENTA);
-        DrawTextureV(tex.getRaylibTexture(), {0, 0}, WHITE);
+
+        if (RAYLIB_TEXTURE_CALLBACK cb = tex.getRaylibTexture(); cb)
+            DrawTextureV(*cb, {0, 0}, WHITE);
+        else
+            std::println("Error: {}", cb.error());
+
         EndDrawing();
     }
 

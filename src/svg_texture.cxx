@@ -65,6 +65,13 @@ SVGTexture::SVGTexture (
     UnloadImage(img);
 }
 
+auto SVGTexture::getRaylibTexture() -> RAYLIB_TEXTURE_CALLBACK {
+    return (0 == _raylibTexture.id)
+        ? std::unexpected(std::format("Raylib texture of '{}' is invalid.", _svgPath))
+        : RAYLIB_TEXTURE_CALLBACK{_raylibTexture}
+    ;
+}
+
 auto SVGTexture::getWidth() -> const int {
     return _width;
 }
@@ -79,8 +86,4 @@ auto SVGTexture::getHeight() -> const int {
 auto SVGTexture::setHeight(const int value) -> const int {
     _height = value;
     return _height;
-}
-
-auto SVGTexture::getRaylibTexture() -> const Texture2D & {
-    return _raylibTexture;
 }

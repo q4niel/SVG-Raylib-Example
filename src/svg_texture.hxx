@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <string_view>
+#include <expected>
+#include <functional>
 #include "../3rd/raylib/include/raylib.h"
 
 class SVGTexture {
@@ -12,13 +14,14 @@ public:
     );
     ~SVGTexture() = default;
 
+    #define RAYLIB_TEXTURE_CALLBACK std::expected<std::reference_wrapper<const Texture2D>, std::string>
+    auto getRaylibTexture() -> RAYLIB_TEXTURE_CALLBACK;
+
     auto getWidth() -> const int;
     auto setWidth(const int value) -> const int;
 
     auto getHeight() -> const int;
     auto setHeight(const int value) -> const int;
-
-    auto getRaylibTexture() -> const Texture2D &;
 
 private:
     const std::string _svgPath;
