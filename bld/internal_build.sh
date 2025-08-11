@@ -11,11 +11,10 @@ cp src/resources/triangle.html ./builder/res/triangle.svg
 
 clang++ -std=c++23 -c src/main.cxx -o main.o
 clang++ -std=c++23 -c src/svg_texture/svg_texture.cxx -o svg_texture.o
-clang++ -std=c++23 -c src/draw/draw.cxx -o draw.o
 clang++ -std=c++23 -c src/process_scaling/process_scaling.cxx -o process_scaling.o
 
 cd ./builder
-clang++ libraylib.so.550 libresvg.so ../main.o ../svg_texture.o ../draw.o ../process_scaling.o -o ./app -Wl,-rpath,'$ORIGIN'
+clang++ libraylib.so.550 libresvg.so ../main.o ../svg_texture.o ../process_scaling.o -o ./app -Wl,-rpath,'$ORIGIN'
 cd ..
 
 rm -r !(builder)
