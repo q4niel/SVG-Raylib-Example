@@ -1,26 +1,24 @@
 #include <cstdlib>
-#include <print>
+#include <array>
 #include "../3rd/raylib/include/raylib.h"
-#include "svg_texture.hxx"
+#include "svg_texture/svg_texture.hxx"
+#include "process_scaling/process_scaling.hxx"
+#include "draw/draw.hxx"
 
 auto main(int argc, char **argv) -> int {
     SetTraceLogLevel(LOG_NONE);
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    InitWindow(800, 600, "SVG-Raylib-Example");
+    InitWindow(1920, 1080, "SVG-Raylib-Example");
     SetTargetFPS(60);
 
-    SVGTexture tex{"res/circle.svg", 512, 512};
+    const std::array<SVGTexture, 2> svgs_ = {
+        SVGTexture{"res/square.svg", 10, 1000, 1000},
+        SVGTexture{"res/triangle.svg", 10, 0, 0}
+    };
 
     while (!WindowShouldClose()) {
-        BeginDrawing();
-        ClearBackground(MAGENTA);
-
-        if (RAYLIB_TEXTURE_CALLBACK cb = tex.getRaylibTexture(); cb)
-            DrawTextureV(*cb, {0, 0}, WHITE);
-        else
-            std::println("Error: {}", cb.error());
-
-        EndDrawing();
+        processScaling(svgs_);
+        draw(svgs_);
     }
 
     CloseWindow();
