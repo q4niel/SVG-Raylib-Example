@@ -19,7 +19,7 @@ SVGTexture::SVGTexture (
     _posY(posY_),
     _width(1 * _scale),
     _height(1 * _scale),
-    _raylibTexture({}),
+    _raylibTexture({0}),
     _options_(resvg_options_create()),
     _tree(nullptr)
 {
@@ -35,8 +35,6 @@ SVGTexture::SVGTexture (
         exit(EXIT_FAILURE);
     }
 
-    // Initalize texture as 'invalid' if rasterization fails
-    _raylibTexture.id = 0;
     rasterize_();
 }
 
@@ -46,16 +44,15 @@ SVGTexture::~SVGTexture() {
 }
 
 auto SVGTexture::getRaylibTexture_() const -> RAYLIB_TEXTURE_CALLBACK {
-    return (0 == _raylibTexture.id)
-        ? std::unexpected(std::format("Raylib texture of '{}' is invalid.", _svgPath))
-        : RAYLIB_TEXTURE_CALLBACK{_raylibTexture}
+    return (0 != _raylibTexture.id)
+        ? RAYLIB_TEXTURE_CALLBACK{_raylibTexture}
+        : std::unexpected(std::format("Raylib texture of '{}' is invalid.", _svgPath))
     ;
 }
 
 auto SVGTexture::destroyRaylibTexture_() const -> void {
-    if (getRaylibTexture_()) return;
+    if (!getRaylibTexture_()) return;
     UnloadTexture(_raylibTexture);
-    _raylibTexture.id = 0;
 }
 
 auto SVGTexture::rasterize_() const -> void {
