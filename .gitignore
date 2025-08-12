@@ -12,5 +12,8 @@
 !internal_build.sh
 !internal_build_libraries.sh
 
+!res/
+!res/**/*
+
 !src/
 !src/**/*

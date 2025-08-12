@@ -1,6 +1,6 @@
 #pragma once
 #include <array>
-#include "../svg_texture/svg_texture.hxx"
+#include "../svg_renderable/svg_sprite.hxx"
 
 namespace _detail_ {
     auto isCtrlDown() -> const bool;
@@ -10,6 +10,6 @@ namespace _detail_ {
 }
 
 template<std::size_t N>
-auto processScaling(const std::array<SVGTexture, N> &svgs_) -> void;
+auto processScaling(const std::array<svgr::SVGSprite, N> &svgs_) -> void;
 
 #include "process_scaling.txx"

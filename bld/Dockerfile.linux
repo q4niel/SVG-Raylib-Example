@@ -1,6 +1,7 @@
 FROM archlinux:latest
-RUN pacman -Syu --noconfirm clang rustup
+RUN pacman -Syu --noconfirm clang rustup python3 python-pip
 RUN rustup default stable
+RUN pip3 install --break-system-packages svgwrite
 COPY . ./proj
 WORKDIR proj
 RUN chmod +x bld/internal_build.sh bld/internal_build_libraries.sh

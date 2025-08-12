@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <array>
 #include "../3rd/raylib/include/raylib.h"
-#include "svg_texture/svg_texture.hxx"
+#include "svg_renderable/svg_sprite.hxx"
 #include "process_scaling/process_scaling.hxx"
 #include "draw/draw.hxx"
 
@@ -11,9 +11,9 @@ auto main(int argc, char **argv) -> int {
     InitWindow(1920, 1080, "SVG-Raylib-Example");
     SetTargetFPS(60);
 
-    const std::array<SVGTexture, 2> svgs_ = {
-        SVGTexture{"res/square.svg", 10, 1000, 1000},
-        SVGTexture{"res/triangle.svg", 10, 0, 0}
+    const std::array<svgr::SVGSprite, 2> svgs_ = {
+        svgr::SVGSprite{"res/square.svg", 10, 1000, 1000},
+        svgr::SVGSprite{"res/triangle.svg", 10, 0, 0}
     };
 
     while (!WindowShouldClose()) {
