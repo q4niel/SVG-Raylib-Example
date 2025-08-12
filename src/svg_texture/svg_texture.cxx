@@ -3,6 +3,8 @@
 #include <cstring>
 #include <print>
 #include <vector>
+#include <algorithm>
+#include <limits>
 #include "../../3rd/resvg/crates/c-api/resvg.h"
 
 SVGTexture::SVGTexture (
@@ -99,11 +101,19 @@ auto SVGTexture::getSVGPath_() const -> std::string_view {
 }
 
 auto SVGTexture::incrementScale_() const -> void {
-    _scale += 1;
+    _scale = std::clamp (
+        _scale+1,
+        .1f,
+        std::numeric_limits<float>::max()
+    );
 }
 
 auto SVGTexture::decrementScale_() const -> void {
-    _scale -= 1;
+    _scale = std::clamp (
+        _scale-1,
+        .1f,
+        std::numeric_limits<float>::max()
+    );
 }
 
 auto SVGTexture::getPosX_() const -> const float {
